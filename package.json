@@ -1,0 +1,41 @@
+{
+  "name": "bienesraices",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "server": "nodemon index.js",
+    "css": "postcss public/css/tailwind.css -o public/css/app.css"
+  },
+  "keywords": [
+    "MVC",
+    "Pug",
+    "Tailwind",
+    "MySQL",
+    "Sequelize"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Axel1022/Bienes_Raices.git"
+  },
+  "author": "Gary Alexander Campusano Paredes",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Axel1022/Bienes_Raices/issues"
+  },
+  "homepage": "https://github.com/Axel1022/Bienes_Raices#readme",
+  "description": "",
+  "dependencies": {
+    "express": "^4.21.2",
+    "pug": "^3.0.3",
+    "sequelize": "^6.37.5"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.20",
+    "nodemon": "^3.1.7",
+    "postcss": "^8.4.49",
+    "postcss-cli": "^11.0.0",
+    "tailwindcss": "^3.4.16"
+  }
+}
