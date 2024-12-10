@@ -1,1 +1,28 @@
-h2 Crea tu cuenta
+extends ../layouts/index
+block contenido
+    div
+        div.mt-8.mx-auto.max-w-md
+            div.bg-white.py-8.px-4.shadow
+                form.space-y-5
+                    div
+                        label.block.text-sm.uppercase.text-gray-400.mb-2.font-bold(for="nombre") Nombre
+                        input#nombre.w-full.px-3.py-2.border.border-gray-300.rounded-md.placeholder-gray-400(placeholder="Nombre" type="text" name="nombre")
+                    div
+                        label.block.text-sm.uppercase.text-gray-400.mb-2.font-bold(for="correo") Correo
+                        input#correo.w-full.px-3.py-2.border.border-gray-300.rounded-md.placeholder-gray-400(placeholder="Correo" type="email" name="correo")
+                    div
+                        label.block.text-sm.uppercase.text-gray-400.mb-2.font-bold(for="contrasena") Contraseña
+                        input#contrasena.w-full.px-3.py-2.border.border-gray-300.rounded-md.placeholder-gray-400(placeholder="Contraseña" type="password" name="contrasena")
+                    div
+                        label.block.text-sm.uppercase.text-gray-400.mb-2.font-bold(for="Ccontrasena") Confirmar Contraseña
+                        input#Ccontrasena.w-full.px-3.py-2.border.border-gray-300.rounded-md.placeholder-gray-400(placeholder="Confirmar Contraseña" type="password" name="Ccontrasena")
+
+                    div.flex.items-center.justify-between
+                        a.text-gray-500.text-xs(href="login") Ya tienes cuenta? Inicia Sesión
+                        a.text-gray-500.text-xs(href="olvide-pass") Olvidé mi Contraseña
+
+
+                    input(class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 cursor-pointer" type="button", value="Crear cuenta")
+
+
+
