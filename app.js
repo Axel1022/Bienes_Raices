@@ -9,6 +9,12 @@ app.set("view engine", "pug");
 app.set("views", "./Views");
 app.use(express.static("public"));
 
+// Middleware para analizar JSON
+app.use(express.json());
+
+// Middleware para analizar datos codificados
+app.use(express.urlencoded({ extended: true }));
+
 // Rutas
 app.use("/auth", usuarioRoutes);
 app.use("/", NotFund);
