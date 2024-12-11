@@ -8,10 +8,11 @@ const formularioRegistro = (req, res) => {
     pagina: "Crear Cuenta",
   });
 };
-const formularioOlvidPass = (req, res) => {
-  res.render("Auth/olvidePass", {
-    pagina: "Recupera acceso a Bienes Raíces",
+const registrar = (req, res) => {
+  res.render("Auth/registro", {
+    pagina: "Crear Cuenta",
   });
 };
+const formularioOlvidPass = (req, res) => {};
 
-export { formularioLogin, formularioRegistro, formularioOlvidPass };
+export { formularioLogin, formularioRegistro, formularioOlvidPass, registrar };
