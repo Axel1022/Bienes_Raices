@@ -1,18 +1,18 @@
-const formularioLogin = (req, res) => {
+const formularioLogin = async (req, res) => {
   res.render("Auth/login", {
     pagina: "Iniciar Sesión",
   });
 };
-const formularioRegistro = (req, res) => {
+const formularioRegistro = async (req, res) => {
   res.render("Auth/registro", {
     pagina: "Crear Cuenta",
   });
 };
-const registrar = (req, res) => {
+const registrar = async (req, res) => {
   res.render("Auth/registro", {
     pagina: "Crear Cuenta",
   });
 };
-const formularioOlvidPass = (req, res) => {};
+const formularioOlvidPass = async (req, res) => {};
 
 export { formularioLogin, formularioRegistro, formularioOlvidPass, registrar };
