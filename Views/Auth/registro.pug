@@ -2,9 +2,9 @@ extends ../layouts/index
 block contenido
     div
         if errores
-    div(class="max-w-md mx-auto my-10 p-4 bg-red-100 rounded-lg shadow-lg")
-        each error in errores
-            p(class="bg-red-600 text-white uppercase text-xs text-center p-3 mb-2 rounded font-semibold shadow-md")= error.msg
+            div(class="max-w-md mx-auto my-10 p-4 bg-red-100 rounded-lg shadow-lg")
+                each error in errores
+                    p(class="bg-red-600 text-white uppercase text-xs text-center p-3 mb-2 rounded font-semibold shadow-md")= error.msg
 
 
         div.mt-8.mx-auto.max-w-md
