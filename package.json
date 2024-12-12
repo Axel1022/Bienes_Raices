@@ -27,8 +27,10 @@
   "homepage": "https://github.com/Axel1022/Bienes_Raices#readme",
   "description": "",
   "dependencies": {
+    "bienesraices": "file:",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "express-validator": "^7.2.0",
     "pug": "^3.0.3",
     "sequelize": "^6.37.5",
     "sqlite": "^5.1.1",
