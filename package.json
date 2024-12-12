@@ -27,6 +27,7 @@
   "homepage": "https://github.com/Axel1022/Bienes_Raices#readme",
   "description": "",
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "bienesraices": "file:",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
