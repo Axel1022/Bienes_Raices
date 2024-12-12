@@ -1,4 +1,6 @@
 import { check, validationResult } from "express-validator";
+import { generarId } from "../helpers/tokens.js";
+import { emailRegistro } from "../helpers/email.js";
 import Usuario from "../Models/Usuario.js";
 
 const formularioLogin = async (req, res) => {
@@ -50,14 +52,28 @@ const registrar = async (req, res, next) => {
       },
     });
   }
-  await Usuario.create({
+  const usuario= await Usuario.create({
     nombre: req.body.nombre,
     email: req.body.correo,
     password: req.body.contrasena,
-    token: "-",
+    token: generarId(),
     confirmado: false,
   });
-  res.redirect("/auth/login");
+
+  //Enviar correo de activación
+  emailRegistro({
+    nombre: usuario.nombre,
+    email: usuario.email,
+    token: usuario.token
+  });
+
+  res.render("templatess/mensaje", {
+    pagina: "Registro Exitoso",
+    mensaje:
+      "Tu cuenta ha sido creada exitosamente. Revisa tu correo para activar tu cuenta.",
+    url: "/auth/login",
+    titulo: "Ir al Inicio de Sesión",
+  });
 };
 const formularioOlvidPass = async (req, res) => {};
 
