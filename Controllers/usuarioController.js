@@ -52,20 +52,20 @@ const registrar = async (req, res, next) => {
       },
     });
   }
-  const usuario= await Usuario.create({
+  const usuario = await Usuario.create({
     nombre: req.body.nombre,
     email: req.body.correo,
     password: req.body.contrasena,
     token: generarId(),
-    confirmado: true,
+    confirmado: false,
   });
 
-  //Enviar correo de activación
-  // emailRegistro({
-  //   nombre: usuario.nombre,
-  //   email: usuario.email,
-  //   token: usuario.token
-  // });
+  // Enviar correo de activación
+  emailRegistro({
+    nombre: usuario.nombre,
+    email: usuario.email,
+    token: usuario.token,
+  });
 
   res.render("templatess/mensaje", {
     pagina: "Registro Exitoso",
@@ -75,6 +75,42 @@ const registrar = async (req, res, next) => {
     titulo: "Ir al Inicio de Sesión",
   });
 };
+const confirmar = async (req, res) => {
+  const { token } = req.params;
+  const usuario = await Usuario.findOne({ where: { token } });
+
+  if (!usuario) {
+    return res.render("auth/confirmarCuenta", {
+      pagina: "Error al confirmar cuenta",
+      mensaje: "El token de activación es inválido o ha expirado.",
+      titulo: "Ir al Inicio",
+      error: true,
+    });
+  }
+  //Eliminar el token y confirmado como true
+  usuario.token = "";
+  usuario.confirmado = true;
+
+  // await Usuario.update(
+  //   { token: "", confirmado: true },
+  //   { where: { token } }
+  // );
+
+  await usuario.save();
+
+  res.render("auth/confirmarCuenta", {
+    pagina: "Cuenta Confirmada",
+    mensaje: "Cuenta activada corectamente",
+    titulo: "Ir al Inicio",
+    error: false,
+  });
+};
 const formularioOlvidPass = async (req, res) => {};
 
-export { formularioLogin, formularioRegistro, formularioOlvidPass, registrar };
+export {
+  formularioLogin,
+  formularioRegistro,
+  formularioOlvidPass,
+  registrar,
+  confirmar,
+};
