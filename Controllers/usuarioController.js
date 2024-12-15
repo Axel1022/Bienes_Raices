@@ -57,15 +57,15 @@ const registrar = async (req, res, next) => {
     email: req.body.correo,
     password: req.body.contrasena,
     token: generarId(),
-    confirmado: false,
+    confirmado: true,
   });
 
   //Enviar correo de activación
-  emailRegistro({
-    nombre: usuario.nombre,
-    email: usuario.email,
-    token: usuario.token
-  });
+  // emailRegistro({
+  //   nombre: usuario.nombre,
+  //   email: usuario.email,
+  //   token: usuario.token
+  // });
 
   res.render("templatess/mensaje", {
     pagina: "Registro Exitoso",
