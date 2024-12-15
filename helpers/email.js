@@ -2,53 +2,89 @@ import nodemailer from "nodemailer";
 
 const emailRegistro = async (datos) => {
   const transporte = nodemailer.createTransport({
-    host: process.env.EMAIL_HOST,
-    port: process.env.EMAIL_PORT,
+    service: process.env.EMAIL_SERVICES || "gmail",
+    secure: process.env.EMAIL_SECURE || false,
+    port: process.env.EMAIL_PORT || 587,
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS,
     },
-    debug: true,
+    tls: {
+      rejectUnauthorized: false,
+    },
     logger: true,
+    debug: true,
   });
   const { nombre, email, token } = datos;
 
-  try {
-    await transporte.sendMail({
-      from: "Bienes Raíces <noreply@bienesraices.com>",
-      to: email,
-      subject: "Confirma tu cuenta en Bienes Raíces",
-      text: `Hola ${nombre}, gracias por registrarte en Bienes Raíces. Para confirmar tu cuenta, haz clic en el siguiente enlace: ${process.env.URL_APP}/auth/confirmacion/${token}`,
-      html: `
-    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background-color: #f9f9f9;">
-        <h2 style="color: #333;">¡Hola ${nombre}!</h2>
-        <p style="color: #555; line-height: 1.6;">
-            Gracias por registrarte en <strong>Bienes Raíces</strong>. Estamos emocionados de tenerte como parte de nuestra comunidad.
-        </p>
-        <p style="color: #555; line-height: 1.6;">
-            Por favor, confirma tu cuenta haciendo clic en el siguiente botón:
-        </p>
-        <div style="text-align: center; margin: 20px 0;">
-            <a href="${process.env.URL_APP}/auth/confirmacion/${token}"
-               style="display: inline-block; text-decoration: none; color: white; background-color: #007BFF; padding: 10px 20px; border-radius: 5px; font-size: 16px;">
-                Confirmar Cuenta
-            </a>
-        </div>
-        <p style="color: #555; line-height: 1.6;">
-            Si no fuiste tú quien realizó este registro, ignora este correo.
-        </p>
-        <p style="color: #999; font-size: 12px; text-align: center;">
-            © ${new Date().getFullYear()} Bienes Raíces. Todos los derechos reservados.
-        </p>
-    </div>
-    `,
-    });
-  } catch (error) {
-    console.error("Error al enviar el correo:", error.message);
-  }
+  // try {
+  //   await transporte.sendMail({
+  //     from: "Bienes Raíces <noreply@bienesraices.com>",
+  //     to: email,
+  //     subject: "Confirma tu cuenta en Bienes Raíces",
+  //     text: `Hola ${nombre}, gracias por registrarte en Bienes Raíces. Para confirmar tu cuenta, haz clic en el siguiente enlace: ${
+  //       process.env.BACKEND_URL
+  //     }:${process.env.PORT ?? 8080}/auth/confirmar/${token}`,
+  //     html: `
+  //   <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background-color: #f9f9f9;">
+  //       <h2 style="color: #333;">¡Hola ${nombre}!</h2>
+  //       <p style="color: #555; line-height: 1.6;">
+  //           Gracias por registrarte en <strong>Bienes Raíces</strong>. Estamos emocionados de tenerte como parte de nuestra comunidad.
+  //       </p>
+  //       <p style="color: #555; line-height: 1.6;">
+  //           Por favor, confirma tu cuenta haciendo clic en el siguiente botón:
+  //       </p>
+  //       <div style="text-align: center; margin: 20px 0;">
+  //           <a href="${process.env.BACKEND_URL}:${
+  //       process.env.PORT ?? 8080
+  //     }/auth/confirmar/${token}"
+  //              style="display: inline-block; text-decoration: none; color: white; background-color: #007BFF; padding: 10px 20px; border-radius: 5px; font-size: 16px;">
+  //               Confirmar Cuenta
+  //           </a>
+  //       </div>
+  //       <p style="color: #555; line-height: 1.6;">
+  //           Si no fuiste tú quien realizó este registro, ignora este correo.
+  //       </p>
+  //       <p style="color: #999; font-size: 12px; text-align: center;">
+  //           © ${new Date().getFullYear()} Bienes Raíces. Todos los derechos reservados.
+  //       </p>
+  //   </div>
+  //   `,
+  //   });
+
+  //   console.log(
+  //     `${process.env.BACKEND_URL}:${
+  //       process.env.PORT ?? 8080
+  //     }/auth/confirmar/${token}`
+  //   );
+  // } catch (error) {
+  //   console.error(
+  //     "Error al enviar el correo:",
+  //     error.response || error.message
+  //   );
+  // }
+  console.log(
+    `${process.env.BACKEND_URL}:${
+      process.env.PORT ?? 8080
+    }/auth/confirmar/${token}`
+  );
 };
 
 const emailInicioSesion = async (datos) => {
+  const transporte = nodemailer.createTransport({
+    service: process.env.EMAIL_SERVICES || "gmail",
+    secure: process.env.EMAIL_SECURE || false,
+    port: process.env.EMAIL_PORT || 587,
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+    tls: {
+      rejectUnauthorized: false,
+    },
+    logger: true,
+    debug: true,
+  });
   const { nombre, email } = datos;
 
   try {
@@ -77,12 +113,26 @@ const emailInicioSesion = async (datos) => {
   } catch (error) {
     console.error(
       "Error al enviar el correo de inicio de sesión exitoso:",
-      error.message
+      error.response || error.message
     );
   }
 };
 
 const emailCuentaActivada = async (datos) => {
+  const transporte = nodemailer.createTransport({
+    service: process.env.EMAIL_SERVICES || "gmail",
+    secure: process.env.EMAIL_SECURE || false,
+    port: process.env.EMAIL_PORT || 587,
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+    tls: {
+      rejectUnauthorized: false,
+    },
+    logger: true,
+    debug: true,
+  });
   const { nombre, email } = datos;
 
   try {
@@ -115,11 +165,25 @@ const emailCuentaActivada = async (datos) => {
   } catch (error) {
     console.error(
       "Error al enviar el correo de cuenta activada:",
-      error.message
+      error.response || error.message
     );
   }
 };
 const emailRestablecerContrasena = async (datos) => {
+  const transporte = nodemailer.createTransport({
+    service: process.env.EMAIL_SERVICES || "gmail",
+    secure: process.env.EMAIL_SECURE || false,
+    port: process.env.EMAIL_PORT || 587,
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+    tls: {
+      rejectUnauthorized: false,
+    },
+    logger: true,
+    debug: true,
+  });
   const { nombre, email, token } = datos;
 
   try {
@@ -155,7 +219,7 @@ const emailRestablecerContrasena = async (datos) => {
   } catch (error) {
     console.error(
       "Error al enviar el correo de restablecimiento de contraseña:",
-      error.message
+      error.response || error.message
     );
   }
 };
