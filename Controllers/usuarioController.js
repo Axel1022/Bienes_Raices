@@ -11,6 +11,7 @@ const formularioLogin = async (req, res) => {
 const formularioRegistro = async (req, res) => {
   res.render("auth/registro", {
     pagina: "Crear Cuenta",
+    // csrfToken: req.csrfToken(), Esto no me funciona, xd
   });
 };
 const registrar = async (req, res, next) => {
