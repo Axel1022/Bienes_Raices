@@ -6,10 +6,10 @@ block contenido
                 each error in errores
                     p(class="bg-red-600 text-white uppercase text-xs text-center p-3 mb-2 rounded font-semibold shadow-md")= error.msg
 
-
         div.mt-8.mx-auto.max-w-md
             div.bg-white.py-8.px-4.shadow
                 form.space-y-5(action="/auth/registro", method="post" noValidate)
+                    //- input(type="hidden", name="_csrf", value=csrfToken)
                     div
                         label.block.text-sm.uppercase.text-gray-400.mb-2.font-bold(for="nombre") Nombre
                         input#nombre.w-full.px-3.py-2.border.border-gray-300.rounded-md.placeholder-gray-400(placeholder="Nombre" type="text" name="nombre" value=usuario? usuario.nombre : "")
