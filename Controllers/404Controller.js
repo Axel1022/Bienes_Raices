@@ -1,4 +1,6 @@
 const NotFUnd = (req, res) => {
-  res.render("404");
+  res.status(404).render("404", {
+    pagina: "Página no encontrada",
+  });
 };
 export default NotFUnd;
