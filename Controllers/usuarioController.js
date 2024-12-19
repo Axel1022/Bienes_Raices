@@ -6,9 +6,93 @@ import Usuario from "../Models/Usuario.js";
 
 //Formulario para iniciar sesion
 const formularioLogin = async (req, res) => {
-  res.render("auth/login", {
+  res.status(401).render("auth/login", {
     pagina: "Iniciar Sesión",
   });
+};
+//Validar credenciales
+const validarUsuario = async (req, res) => {
+  //Validando que sea una contrasena y correo valido
+  await check("correo", "Debe ser un correo válido.").isEmail().run(req);
+  await check("contrasena", "La contraseña debe tener al menos 8 caracteres.")
+    .isLength({ min: 8 })
+    .run(req);
+  let resultado = validationResult(req);
+
+  if (!resultado.isEmpty()) {
+    return res.status(400).render("auth/login", {
+      pagina: "Iniciar Sesión",
+      errores: resultado.array(),
+      usuario: {
+        correo: req.body.correo,
+      },
+    });
+  }
+  try {
+    const { correo, contrasena } = req.body;
+
+    //Verificando si el usuario existe
+    const usuario = await Usuario.findOne({
+      where: { email: correo },
+    });
+
+    if (!usuario) {
+      return res.status(400).render("auth/login", {
+        pagina: "Iniciar Sesión",
+        errores: [
+          {
+            msg: "No existe una cuenta con ese correo electrónico. Por favor, revisa el correo o regístrate si no tienes una cuenta.",
+          },
+        ],
+        usuario: {
+          correo: req.body.correo,
+        },
+      });
+    }
+
+    //Verifico que el usuario activo su cuenta
+    if (!usuario.confirmado) {
+      return res.status(403).render("auth/login", {
+        pagina: "Iniciar Sesión",
+        errores: [
+          {
+            msg: "Tu cuenta no ha sido activada. Revisa tu correo electrónico para activar tu cuenta. Si no lo encuentras, revisa en la carpeta de spam.",
+          },
+        ],
+        usuario: {
+          correo: req.body.correo,
+        },
+      });
+    }
+
+    //Verificando la contraseña
+    const contrasenaValida = await bcrypt.compare(contrasena, usuario.password);
+    if (!contrasenaValida) {
+      return res.status(400).render("auth/login", {
+        pagina: "Iniciar Sesión",
+        errores: [
+          {
+            msg: "La contraseña ingresada es incorrecta. Por favor, inténtalo de nuevo.",
+          },
+        ],
+        usuario: {
+          correo: req.body.correo,
+        },
+      });
+    }
+    console.log("Usuario autentico!");
+  } catch (error) {
+    console.error("Error durante el proceso de autenticación:", error);
+    res.status(500).render("auth/login", {
+      pagina: "Iniciar Sesión",
+      errores: [
+        {
+          msg: "Hubo un problema al procesar tu solicitud. Intenta nuevamente más tarde.",
+        },
+      ],
+      usuario: { correo: req.body.correo },
+    });
+  }
 };
 //Formulario para registrar usuarios
 const formularioRegistro = async (req, res) => {
@@ -228,6 +312,7 @@ const validarNuevaPass = async (req, res) => {
 
 export {
   formularioLogin,
+  validarUsuario,
   formularioRegistro,
   formularioVerificarCorreo,
   validarPass,
