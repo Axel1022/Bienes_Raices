@@ -1,18 +1,18 @@
 extends ../layouts/index
 block contenido
     div
+        if errores
+                div(class="max-w-md mx-auto my-10 p-4 bg-red-100 rounded-lg shadow-lg")
+                    each error in errores
+                        p(class="bg-red-600 text-white uppercase text-xs text-center p-3 mb-2 rounded font-semibold shadow-md")= error.msg
         div.mt-8.mx-auto.max-w-md
             div.bg-white.py-8.px-4.shadow
-                form.space-y-5
+                form.space-y-5(action="/auth/olvide-pass", method="post" noValidate)
                     div
                         label.block.text-sm.uppercase.text-gray-400.mb-2.font-bold(for="correo") Correo
-                        input#correo.w-full.px-3.py-2.border.border-gray-300.rounded-md.placeholder-gray-400(placeholder="Correo" type="email" name="correo")
+                        input#correo.w-full.px-3.py-2.border.border-gray-300.rounded-md.placeholder-gray-400(placeholder="Correo" type="email" name="correo" value=usuario ? usuario.correo : "")
 
-                    div.flex.items-center.justify-between
-                        a.text-gray-500.text-xs(href="login") Ya tienes cuenta? Inicia Sesión
-                        a.text-gray-500.text-xs(href="registro") No tienes cuenta? Crea una
-
-                    input(class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 cursor-pointer" type="button", value="Recuperar Acceso")
+                    input(class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 cursor-pointer" type="submit", value="Recuperar Acceso")
 
 
 
