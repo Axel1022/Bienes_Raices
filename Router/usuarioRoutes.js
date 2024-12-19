@@ -2,6 +2,7 @@ import express from "express";
 const router = express.Router();
 import {
   formularioLogin,
+  validarUsuario,
   formularioRegistro,
   formularioVerificarCorreo,
   validarPass,
@@ -11,11 +12,12 @@ import {
   validarNuevaPass,
 } from "../Controllers/usuarioController.js";
 
-// Rutas públicas
+//Login del usuario
 router.get("/login", formularioLogin); // Formulario para el login
-router.get("/registro", formularioRegistro); // Formulario para el registro de usuario
+router.post("/login", validarUsuario); // Verifico las credenciales del usuario
 
 // Registro de usuario
+router.get("/registro", formularioRegistro); // Formulario para el registro de usuario
 router.post("/registro", validarRegistro); // Lógica para registrar un usuario
 
 // Confirmación de token para activar al usuario
