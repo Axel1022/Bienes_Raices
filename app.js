@@ -2,6 +2,7 @@ import express from "express";
 import csrf from "csurf";
 import cookieParser from "cookie-parser";
 import usuarioRoutes from "./Router/usuarioRoutes.js";
+import proiedadesRoutes from "./Router/propiedadesRoutes.js";
 import NotFund from "./Controllers/404Controller.js";
 
 const app = express();
@@ -22,8 +23,9 @@ app.use(express.json());
 // Middleware para analizar datos codificados
 app.use(express.urlencoded({ extended: true }));
 
-// Rutas
+// Middleware - Rutas
 app.use("/auth", usuarioRoutes);
+app.use("/", proiedadesRoutes);
 app.use("/", NotFund);
 
 export default app;
