@@ -1,5 +1,5 @@
 import { check, validationResult } from "express-validator";
-import { generarId } from "../helpers/tokens.js";
+import { generarJWT, generarId } from "../helpers/tokens.js";
 import bcrypt from "bcrypt";
 import { emailRegistro, emailRestablecerContrasena } from "../helpers/email.js";
 import Usuario from "../Models/Usuario.js";
@@ -10,6 +10,7 @@ const formularioLogin = async (req, res) => {
     pagina: "Iniciar Sesión",
   });
 };
+
 //Validar credenciales
 const validarUsuario = async (req, res) => {
   //Validando que sea una contrasena y correo valido
@@ -80,7 +81,14 @@ const validarUsuario = async (req, res) => {
         },
       });
     }
-    console.log("Usuario autentico!");
+    //Autenticar usuario
+    const token = generarJWT({ id: usuario.id, nombre: usuario.nombre });
+    //Guardando token en la cookie
+    return res
+      .cookie("_token", token, {
+        httpOnly: true,
+      })
+      .redirect("/mis-propiedades");
   } catch (error) {
     console.error("Error durante el proceso de autenticación:", error);
     res.status(500).render("auth/login", {
@@ -94,6 +102,7 @@ const validarUsuario = async (req, res) => {
     });
   }
 };
+
 //Formulario para registrar usuarios
 const formularioRegistro = async (req, res) => {
   res.render("auth/registro", {
@@ -101,6 +110,7 @@ const formularioRegistro = async (req, res) => {
     // csrfToken: req.csrfToken(), Esto no me funciona, xd
   });
 };
+
 // Validaciones antes de registrar al usuario
 const validarRegistro = async (req, res, next) => {
   //Validaciones
@@ -164,6 +174,7 @@ const validarRegistro = async (req, res, next) => {
     titulo: "Ir al Inicio de Sesión",
   });
 };
+
 // Actualizar el estado del usuario y eliminar el token
 const confirmarUsuario = async (req, res) => {
   const { token } = req.params;
@@ -195,12 +206,14 @@ const confirmarUsuario = async (req, res) => {
     error: false,
   });
 };
+
 //Formulario para colocar el correo
 const formularioVerificarCorreo = async (req, res) => {
   res.render("auth/olvidePass", {
     pagina: "Recuperar acceso a Bienes Raices",
   });
 };
+
 //Validaciones antes de enviar correo al usuario con el link para cambiar contrasena
 const validarPass = async (req, res) => {
   await check("correo", "El correo es obligatorio.").notEmpty().run(req);
@@ -251,6 +264,7 @@ const validarPass = async (req, res) => {
     titulo: "Ir al Inicio de Sesión",
   });
 };
+
 //Formulario para colocar la nueva contrasena (requiere un token válido)
 const FormularioNuevaPass = async (req, res) => {
   const { token } = req.params;
@@ -273,6 +287,7 @@ const FormularioNuevaPass = async (req, res) => {
     usuario: usuario.email,
   });
 };
+
 // Validaciones antes de cambiar la contrasena
 const validarNuevaPass = async (req, res) => {
   await check("contrasena", "La contraseña debe tener al menos 8 caracteres.")
