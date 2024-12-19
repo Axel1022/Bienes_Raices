@@ -12,7 +12,9 @@ const startServer = async () => {
     console.log("✅ Base de datos sincronizada");
 
     app.listen(port, () => {
-      console.log(`🚀 Servidor iniciado en http://localhost:${port}/`);
+      console.log(
+        `🚀 Servidor iniciado en http://localhost:${port}/auth/login`
+      );
     });
   } catch (error) {
     console.error("❌ Error al iniciar el servidor:", error);
