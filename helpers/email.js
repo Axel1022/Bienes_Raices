@@ -12,57 +12,49 @@ const emailRegistro = async (datos) => {
     tls: {
       rejectUnauthorized: false,
     },
-    logger: true,
-    debug: true,
   });
   const { nombre, email, token } = datos;
 
-  // try {
-  //   await transporte.sendMail({
-  //     from: "Bienes Raíces <noreply@bienesraices.com>",
-  //     to: email,
-  //     subject: "Confirma tu cuenta en Bienes Raíces",
-  //     text: `Hola ${nombre}, gracias por registrarte en Bienes Raíces. Para confirmar tu cuenta, haz clic en el siguiente enlace: ${
-  //       process.env.BACKEND_URL
-  //     }:${process.env.PORT ?? 8080}/auth/confirmar/${token}`,
-  //     html: `
-  //   <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background-color: #f9f9f9;">
-  //       <h2 style="color: #333;">¡Hola ${nombre}!</h2>
-  //       <p style="color: #555; line-height: 1.6;">
-  //           Gracias por registrarte en <strong>Bienes Raíces</strong>. Estamos emocionados de tenerte como parte de nuestra comunidad.
-  //       </p>
-  //       <p style="color: #555; line-height: 1.6;">
-  //           Por favor, confirma tu cuenta haciendo clic en el siguiente botón:
-  //       </p>
-  //       <div style="text-align: center; margin: 20px 0;">
-  //           <a href="${process.env.BACKEND_URL}:${
-  //       process.env.PORT ?? 8080
-  //     }/auth/confirmar/${token}"
-  //              style="display: inline-block; text-decoration: none; color: white; background-color: #007BFF; padding: 10px 20px; border-radius: 5px; font-size: 16px;">
-  //               Confirmar Cuenta
-  //           </a>
-  //       </div>
-  //       <p style="color: #555; line-height: 1.6;">
-  //           Si no fuiste tú quien realizó este registro, ignora este correo.
-  //       </p>
-  //       <p style="color: #999; font-size: 12px; text-align: center;">
-  //           © ${new Date().getFullYear()} Bienes Raíces. Todos los derechos reservados.
-  //       </p>
-  //   </div>
-  //   `,
-  //   });
-
-  //   console.log(
-  //     `${process.env.BACKEND_URL}:${
-  //       process.env.PORT ?? 8080
-  //     }/auth/confirmar/${token}`
-  //   );
-  // } catch (error) {
-  //   console.error(
-  //     "Error al enviar el correo:",
-  //     error.response || error.message
-  //   );
-  // }
+  try {
+    await transporte.sendMail({
+      from: "Bienes Raíces <noreply@bienesraices.com>",
+      to: email,
+      subject: "Confirma tu cuenta en Bienes Raíces",
+      text: `Hola ${nombre}, gracias por registrarte en Bienes Raíces. Para confirmar tu cuenta, haz clic en el siguiente enlace: ${
+        process.env.BACKEND_URL
+      }:${process.env.PORT ?? 8080}/auth/confirmar/${token}`,
+      html: `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background-color: #f9f9f9;">
+        <h2 style="color: #333;">¡Hola ${nombre}!</h2>
+        <p style="color: #555; line-height: 1.6;">
+            Gracias por registrarte en <strong>Bienes Raíces</strong>. Estamos emocionados de tenerte como parte de nuestra comunidad.
+        </p>
+        <p style="color: #555; line-height: 1.6;">
+            Por favor, confirma tu cuenta haciendo clic en el siguiente botón:
+        </p>
+        <div style="text-align: center; margin: 20px 0;">
+            <a href="${process.env.BACKEND_URL}:${
+        process.env.PORT ?? 8080
+      }/auth/confirmar/${token}"
+               style="display: inline-block; text-decoration: none; color: white; background-color: #007BFF; padding: 10px 20px; border-radius: 5px; font-size: 16px;">
+                Confirmar Cuenta
+            </a>
+        </div>
+        <p style="color: #555; line-height: 1.6;">
+            Si no fuiste tú quien realizó este registro, ignora este correo.
+        </p>
+        <p style="color: #999; font-size: 12px; text-align: center;">
+            © ${new Date().getFullYear()} Bienes Raíces. Todos los derechos reservados.
+        </p>
+    </div>
+    `,
+    });
+  } catch (error) {
+    console.error(
+      "Error al enviar el correo:",
+      error.response || error.message
+    );
+  }
   console.log(
     `${process.env.BACKEND_URL}:${
       process.env.PORT ?? 8080
@@ -82,8 +74,6 @@ const emailInicioSesion = async (datos) => {
     tls: {
       rejectUnauthorized: false,
     },
-    logger: true,
-    debug: true,
   });
   const { nombre, email } = datos;
 
@@ -130,8 +120,6 @@ const emailCuentaActivada = async (datos) => {
     tls: {
       rejectUnauthorized: false,
     },
-    logger: true,
-    debug: true,
   });
   const { nombre, email } = datos;
 
@@ -181,17 +169,19 @@ const emailRestablecerContrasena = async (datos) => {
     tls: {
       rejectUnauthorized: false,
     },
-    logger: true,
-    debug: true,
   });
-  const { nombre, email, token } = datos;
+  const { email, token , nombre} = datos;
 
   try {
     await transporte.sendMail({
       from: "Bienes Raíces <noreply@bienesraices.com>",
       to: email,
       subject: "Restablecimiento de contraseña",
-      text: `Hola ${nombre}, para restablecer tu contraseña haz clic en el siguiente enlace: ${process.env.URL_APP}/auth/restablecer/${token}. Si no solicitaste este cambio, ignora este correo.`,
+      text: `Hola ${nombre}, para restablecer tu contraseña haz clic en el siguiente enlace: ${
+        process.env.BACKEND_URL
+      }:${
+        process.env.PORT ?? 8080
+      }/auth/-/${token}. Si no solicitaste este cambio, ignora este correo.`,
       html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background-color: #f9f9f9;">
           <h2 style="color: #333;">Hola ${nombre}</h2>
@@ -202,7 +192,9 @@ const emailRestablecerContrasena = async (datos) => {
               Haz clic en el botón a continuación para cambiar tu contraseña:
           </p>
           <div style="text-align: center; margin: 20px 0;">
-              <a href="${process.env.URL_APP}/auth/restablecer/${token}"
+              <a href="${process.env.BACKEND_URL}:${
+        process.env.PORT ?? 8080
+      }/auth/cambiar-pass/${token}"
                  style="display: inline-block; text-decoration: none; color: white; background-color: #007BFF; padding: 10px 20px; border-radius: 5px; font-size: 16px;">
                   Restablecer Contraseña
               </a>
@@ -216,6 +208,8 @@ const emailRestablecerContrasena = async (datos) => {
       </div>
       `,
     });
+
+    console.log();
   } catch (error) {
     console.error(
       "Error al enviar el correo de restablecimiento de contraseña:",
