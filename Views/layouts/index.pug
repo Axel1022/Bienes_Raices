@@ -5,6 +5,7 @@ html(lang="es")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         title Bienes Raíces | #{pagina}
         link(rel="stylesheet", href="/css/app.css")
+        block styles
     body.min-h-screen.bg-gray-50
         if navBar
             include header
@@ -14,3 +15,4 @@ html(lang="es")
             //-     span.font-normal Raíces
             h2.text-center.text-2xl.font-extrabold=pagina
             block contenido
+        block scripts
