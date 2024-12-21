@@ -1,9 +1,10 @@
 import categorias from "./categorias.js";
-import Categoria from "../Models/Categoria.js";
 import precios from "./precios.js";
-import Precio from "../Models/Precio.js";
+//Importar relaciones
+import { Precio, Categoria } from "../Models/Relaciones.js";
+import usuarios from "./usuarios.js";
+import Usuario from "../Models/Usuario.js";
 import db from "../config/db.js";
-import { where } from "sequelize";
 
 const importarDatos = async () => {
   try {
@@ -13,8 +14,9 @@ const importarDatos = async () => {
     await db.sync();
     //Importar datos en paralelo
     await Promise.all([
-      Categoria.bulkCreate(categorias),
       Precio.bulkCreate(precios),
+      Usuario.bulkCreate(usuarios), //Hay que salar la contracena
+      Categoria.bulkCreate(categorias),
     ]);
 
     console.log("Datos importados exitosamente");
@@ -26,10 +28,15 @@ const importarDatos = async () => {
 };
 const eliminarDatos = async () => {
   try {
-    await Promise.all([
-      Categoria.destroy({ where: {}, truncate: true }),
-      Precio.destroy({ where: {}, truncate: true }),
-    ]);
+    // await Promise.all([
+    //   Precio.destroy({ where: {}, truncate: true }),
+    //   Usuario.destroy({ where: {}, truncate: true }),
+    //   Categoria.destroy({ where: {}, truncate: true }),
+    // ]);
+
+    await db.sync({ force: true });
+    console.log("Datos eliminados exitosamente");
+    process.exit();
   } catch (error) {
     console.log(error);
     process.exit(1);
