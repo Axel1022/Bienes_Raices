@@ -4,10 +4,13 @@ block styles
     link(rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css")
 
 block contenido
+    if errores
+            div(class="max-w-md mx-auto my-10 p-4 bg-red-100 rounded-lg shadow-lg")
+                each error in errores
+                    p(class="bg-red-600 text-white uppercase text-xs text-center p-3 mb-2 rounded font-semibold shadow-md")= error.msg
 
     div(class="bg-white shadow py-8 px-4 rounded mx-auto max-w-4xl my-10 md:px-10")
-
-        form(action="" method="post").space-y-8
+        form(action="/propiedades/crear" method="post").space-y-8
             div.space-y-2
                 h3.text-lg-leading-6.font-medium.text-gray-900 Informacion General
                 p.text-gray-600 Añade informacion sobre la propiedad en venta
@@ -73,6 +76,7 @@ block contenido
                     input(type="hidden", name="calle" id="calle" value="")
                     input(type="hidden", name="lat" id="lat" value="")
                     input(type="hidden", name="lng" id="lng" value="")
+            input(class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 cursor-pointer" type="submit", value="Guardar")
 block scripts
     script(src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js")
     script(src="https://unpkg.com/esri-leaflet@3.0.8/dist/esri-leaflet.js")
