@@ -3,24 +3,15 @@ import { body } from "express-validator";
 const router = express.Router();
 
 // Importar controladores
-import { homePropiedades } from "../Controllers/Propiedades/homePropiedades.js";
-
 import {
-  buscarCategoriasyPrecios,
-  mapearCategoriasyPrecios,
-  mostrarFormulario,
-} from "../Controllers/Propiedades/formularioPropiedad.js";
-
-import { validarDatos } from "../Controllers/Propiedades/crearPropiedad.js";
+  homePropiedades,
+  formularioPropiedades,
+  crearPropiedad,
+} from "../Controllers/propiedadesController.js";
 
 //Rutas
 router.get("/propiedades", homePropiedades);
-router.get(
-  "/propiedades/crear",
-  buscarCategoriasyPrecios,
-  mapearCategoriasyPrecios,
-  mostrarFormulario
-);
+router.get("/propiedades/crear", formularioPropiedades);
 router.post(
   "/propiedades/crear",
   body("titulo", "El título no puede estar vacío").notEmpty(),
@@ -31,7 +22,7 @@ router.post(
   body("parqueos", "El número de parqueos es obligatorio").notEmpty(),
   body("banos", "El número de baños no puede estar vacío").notEmpty(),
   body("calle", "Ubica la propiedad en el mapa.").notEmpty(),
-  validarDatos
+  crearPropiedad
 );
 
 //Exportar rutas
